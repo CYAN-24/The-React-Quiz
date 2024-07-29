@@ -5,6 +5,7 @@ import Error from "./Error";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
+import PrevButton from "./PrevButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
@@ -26,6 +27,7 @@ function App() {
             <Progress />
             <Question />
             <Footer>
+              <PrevButton />
               <Timer />
               <NextButton />
             </Footer>

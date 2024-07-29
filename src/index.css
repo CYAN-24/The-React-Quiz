@@ -6,6 +6,7 @@
 
   --color-theme: #1098ad;
   --color-accent: #ffa94d;
+  --color-incorrect: #ce3330;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Codystar&display=swap");
@@ -166,6 +167,11 @@ progress {
   border: 2px solid var(--color-accent);
   color: var(--color-darkest);
 }
+.btn-option.incorrect {
+  background-color: var(--color-incorrect);
+  border: 2px solid var(--color-incorrect);
+  color: var(--color-light);
+}
 
 .answer {
   transform: translateX(2rem);
@@ -256,4 +262,11 @@ progress {
 .counter * {
   font-size: inherit;
   padding: 0.8rem;
+}
+
+/* ********** */
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
 }

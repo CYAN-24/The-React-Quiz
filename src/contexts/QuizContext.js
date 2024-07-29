@@ -11,7 +11,7 @@ const initialState = {
   status: "loading",
 
   index: 0,
-  answer: null,
+  answers: [],
   points: 0,
   highscore: 0,
   secondsRemaining: null,
@@ -20,9 +20,11 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceived":
+      const ansLen = Array.from({ length: action.payload.length }, () => null);
       return {
         ...state,
         questions: action.payload,
+        answers: ansLen,
         status: "ready",
       };
     case "dataFailed":
@@ -38,16 +40,26 @@ function reducer(state, action) {
       };
     case "newAnswer":
       const question = state.questions.at(state.index);
+      const ansArr = state.answers.map((ans, index) => {
+        if (index === state.index) {
+          return action.payload;
+        } else {
+          return ans;
+        }
+      });
+
       return {
         ...state,
-        answer: action.payload,
+        answers: ansArr,
         points:
           action.payload === question.correctOption
             ? state.points + question.points
             : state.points,
       };
     case "nextQuestion":
-      return { ...state, index: state.index + 1, answer: null };
+      return { ...state, index: state.index + 1 };
+    case "prevQuestion":
+      return { ...state, index: state.index - 1 };
     case "finish":
       return {
         ...state,
@@ -59,6 +71,7 @@ function reducer(state, action) {
       return {
         ...initialState,
         questions: state.questions,
+        answers: Array.from({ length: state.questions.length }, () => null),
         status: "ready",
         highscore: state.highscore,
       };
@@ -75,7 +88,7 @@ function reducer(state, action) {
 
 function QuizProvider({ children }) {
   const [
-    { questions, status, index, answer, points, highscore, secondsRemaining },
+    { questions, status, index, answers, points, highscore, secondsRemaining },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -98,7 +111,7 @@ function QuizProvider({ children }) {
         questions,
         status,
         index,
-        answer,
+        answers,
         points,
         highscore,
         secondsRemaining,
